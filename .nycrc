@@ -1,0 +1,11 @@
+{
+  "nyc": {
+    "include": ["test.js"],
+    "environment": {
+      "RUN_FUNCTION_TESTS": "true"
+    }
+  },
+  "reporter": ["text", "html"],
+  "all": true,
+  "check-coverage": true
+}

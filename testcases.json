@@ -1,0 +1,14 @@
+[
+  {
+    "name": "checkNumber",
+    "conditionName": "num < 3",
+    "trueValue": 2,
+    "falseValue": 4
+  },
+  {
+    "name": "checkNumber",
+    "conditionName": "num < 2",
+    "trueValue": 1,
+    "falseValue": 3
+  }
+]

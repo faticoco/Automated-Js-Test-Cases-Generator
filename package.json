@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "acorn": "^8.11.2",
+    "acorn-walk": "^8.3.0",
+    "astring": "^1.8.6",
+    "escodegen": "^2.1.0",
+    "fs": "^0.0.1-security",
+    "istanbul": "^0.4.5",
+    "mocha": "^10.2.0",
+    "prettier": "^3.1.0",
+    "puppeteer": "^21.5.2",
+    "vm2": "^3.9.19"
+  },
+  "name": "js-code-analyzer",
+  "version": "1.0.0",
+  "main": "AST_util.js",
+  "scripts": {
+    "coverage": "nyc node test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nyc": "^15.1.0"
+  },
+  "nyc": {
+    "include": [
+      "*.js"
+    ],
+    "exclude": [
+      "tests/**/*"
+    ]
+  }
+}
