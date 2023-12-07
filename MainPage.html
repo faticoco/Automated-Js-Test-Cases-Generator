@@ -38,17 +38,15 @@
       window.location.href = "/ShowReports.html";
     }
 
-    // Add an event listener for form submission
     document
       .getElementById("codeForm")
       .addEventListener("submit", async function (event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
         if (document.getElementById("code").value == "") {
           alert("Please Enter your code");
           window.reload();
         } else {
           try {
-            // Submit the form asynchronously using fetch
             await fetch("http://localhost:3000/writeToFile", {
               method: "POST",
               headers: {
@@ -58,8 +56,6 @@
                 code: document.getElementById("code").value,
               }),
             }).then(handleRedirect());
-
-            // Redirect after successful submission
           } catch (error) {
             console.error("Error submitting form:", error);
           }
