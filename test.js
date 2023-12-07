@@ -16,5 +16,5 @@ function checkNumber(num) {
 
 module.exports = { add, subtract, checkNumber };
 
-console.log(add(2, 3));
+add(2, 3);
 /* istanbul ignore next */
