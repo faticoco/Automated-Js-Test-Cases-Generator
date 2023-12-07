@@ -1,14 +1,14 @@
 [
   {
-    "name": "checkNumber",
-    "conditionName": "num < 3",
-    "trueValue": 2,
-    "falseValue": 4
+    "name": "divide",
+    "conditionName": "b !== 0",
+    "trueValue": 1,
+    "falseValue": 0
   },
   {
-    "name": "checkNumber",
-    "conditionName": "num < 2",
-    "trueValue": 1,
-    "falseValue": 3
+    "name": "greet",
+    "conditionName": "name",
+    "trueValue": true,
+    "falseValue": false
   }
 ]

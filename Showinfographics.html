@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coverage Infographic</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body style="background-color: white">
+    <h1
+      style='
+        color: #0539a9;
+        margin-left: 600px;
+        font-family: Franklin Gothic Medium",
+          "Arial Narrow", Arial, sans-serif;
+      '
+    >
+      Infographics Report
+    </h1>
+    <canvas id="coverageChart" width="400" height="150"></canvas>
+
+    <script>
+      async function fetchCoverageData() {
+        const response = await fetch("coverage/coverage.json");
+        const coverageData = await response.json();
+
+        const fileData =
+          coverageData[
+            "C:\\Users\\fatim\\Downloads\\JS-Code-Analyzer-main\\JS-Code-Analyzer-main\\test.js"
+          ];
+
+        const totalBranches = Object.keys(fileData.branchMap).length;
+        const totalFunctions = Object.keys(fileData.fnMap).length;
+        const totalStatements = Object.keys(fileData.s).length;
+
+        // Calculating the covered branches, functions, and statements
+        const branchesCovered = Object.values(fileData.b).filter(
+          (val) => val && val.length > 0
+        ).length;
+        const functionsCovered = Object.values(fileData.f).filter(
+          (val) => val > 0
+        ).length;
+        const statementsCovered = Object.values(fileData.s).filter(
+          (val) => val > 0
+        ).length;
+
+        const branchesCoverage = (branchesCovered / totalBranches) * 100;
+        const functionsCoverage = (functionsCovered / totalFunctions) * 100;
+        const statementsCoverage = (statementsCovered / totalStatements) * 100;
+
+        return {
+          branches: branchesCoverage,
+          functions: functionsCoverage,
+          statements: statementsCoverage,
+        };
+      }
+
+      async function updateChart() {
+        const coverageData = await fetchCoverageData();
+
+        const ctx = document.getElementById("coverageChart").getContext("2d");
+        const myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Branches", "Functions", "Statements"],
+            datasets: [
+              {
+                label: "Coverage",
+                data: [
+                  coverageData.branches,
+                  coverageData.functions,
+                  coverageData.statements,
+                ],
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(54, 162, 235, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+              },
+            },
+          },
+        });
+      }
+
+      updateChart();
+    </script>
+  </body>
+</html>

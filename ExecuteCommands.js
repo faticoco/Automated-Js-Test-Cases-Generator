@@ -1,8 +1,8 @@
 const { exec } = require("child_process");
 
 // 1
-function formAst() {
-  return new Promise((resolve, reject) => {
+async function formAst() {
+  await new Promise((resolve, reject) => {
     exec("node script.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error generating AST Tree: ${error.message}`);
@@ -16,8 +16,8 @@ function formAst() {
   });
 }
 // 2
-function TestcaseGnerator() {
-  return new Promise((resolve, reject) => {
+async function TestcaseGnerator() {
+  await new Promise((resolve, reject) => {
     exec("node testcasegenerator.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error generating Test Cases: ${error.message}`);
@@ -32,8 +32,8 @@ function TestcaseGnerator() {
 }
 
 // 3
-function ModulesExportAppender() {
-  return new Promise((resolve, reject) => {
+async function ModulesExportAppender() {
+  await new Promise((resolve, reject) => {
     exec("node module_exports_appender.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error appending Test Cases: ${error.message}`);
@@ -47,8 +47,8 @@ function ModulesExportAppender() {
   });
 }
 // 4
-function TestAppender() {
-  return new Promise((resolve, reject) => {
+async function TestAppender() {
+  await new Promise((resolve, reject) => {
     console.log("appending");
     exec("node TestFunctionCallsAppender.js", (error, stdout, stderr) => {
       if (error) {
@@ -64,8 +64,8 @@ function TestAppender() {
 }
 
 //5
-function generateCoverageReport() {
-  return new Promise((resolve, reject) => {
+async function generateCoverageReport() {
+  await new Promise((resolve, reject) => {
     exec("istanbul cover test.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error generating coverage report: ${error.message}`);
@@ -79,24 +79,9 @@ function generateCoverageReport() {
   });
 }
 
-//5
-function generateCoverageReportynyc() {
-  return new Promise((resolve, reject) => {
-    exec("npm run coverage", (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error generating coverage report: ${error.message}`);
-        reject(error);
-        return;
-      }
-
-      console.log(`Coverage report generated successfully:\n${stdout}`);
-      resolve(stdout);
-    });
-  });
-}
 //6
-function convertHTMLtoPDF(htmlFilePath, pdfOutputPath) {
-  return new Promise((resolve, reject) => {
+async function convertHTMLtoPDF(htmlFilePath, pdfOutputPath) {
+  await new Promise((resolve, reject) => {
     exec(
       `node converToPdf.js ${htmlFilePath} ${pdfOutputPath}`,
       (error, stdout, stderr) => {
@@ -125,8 +110,8 @@ async function generateCoverageAndConvertToPDF() {
 }
 
 //6
-function conditionalCoverageanalyzer() {
-  return new Promise((resolve, reject) => {
+async function conditionalCoverageanalyzer() {
+  await new Promise((resolve, reject) => {
     exec("node conditionalCoverageanalyzer.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error generating coverage report: ${error.message}`);
@@ -140,8 +125,8 @@ function conditionalCoverageanalyzer() {
   });
 }
 
-function ModulesExportAppender() {
-  return new Promise((resolve, reject) => {
+async function ModulesExportAppender() {
+  await new Promise((resolve, reject) => {
     exec("node module_exports_appender.js", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error appending Test Cases: ${error.message}`);
@@ -154,17 +139,20 @@ function ModulesExportAppender() {
     });
   });
 }
-function executecommands() {
-  return new Promise((resolve, reject) => {
-    formAst();
-    TestcaseGnerator();
-    TestAppender();
-  });
+async function executecommands() {
+  try {
+    await formAst();
+    await TestcaseGnerator();
+    await TestAppender();
+  } catch (error) {
+    console.error("An error occurred:", error);
+    throw error;
+  }
 }
-//fiest make the test code available in teh testcalls appender code and then applying rest functionality
+//first make the test code available in teh testcalls appender code and then applying rest functionality
 ModulesExportAppender();
-if (executecommands()) {
-  generateCoverageReport();
-  generateCoverageAndConvertToPDF();
-  conditionalCoverageanalyzer();
-}
+executecommands()
+  .then(() => generateCoverageReport())
+  .then(() => generateCoverageAndConvertToPDF())
+  .then(() => conditionalCoverageanalyzer())
+  .catch((error) => console.error("An error occurred:", error));

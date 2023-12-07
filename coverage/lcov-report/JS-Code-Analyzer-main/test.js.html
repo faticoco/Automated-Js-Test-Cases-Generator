@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.44% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>17/18</span>
+        <span class='fraction'>33/33</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.44% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>17/18</span>
+        <span class='fraction'>33/33</span>
       </div>
     </div>
   </div>
@@ -74,30 +74,74 @@
 29
 30
 31
-32</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -105,44 +149,66 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">// Sample functions for testing
+<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">// Traditional function expressions
 function add(a, b) {
   return a + b;
 }
 &nbsp;
-<span class="fstat-no" title="function not covered" >function subtract(a, b) {</span>
-<span class="cstat-no" title="statement not covered" >  return a - b;</span>
+function subtract(a, b) {
+  return a - b;
 }
 &nbsp;
-// Sample conditional statements for testing
-function checkNumber(num) {
-  if (num &lt; 3 &amp;&amp; num &lt; 2) {
-    return "Negative";
+function multiply(a, b) {
+  return a * b;
+}
+&nbsp;
+function divide(a, b) {
+  if (b !== 0) {
+    return a / b;
+  } else {
+    return "Cannot divide by zero";
   }
 }
 &nbsp;
-module.exports = { add, subtract, checkNumber };
+function square(num) {
+  return multiply(num, num);
+}
 &nbsp;
-/* istanbul ignore next */ console.log(add(2, 3));
+function greet(name) {
+  if (name) {
+    return "Hello, " + name + "!";
+  } else {
+    return "Hello, stranger!";
+  }
+}
+&nbsp;
+console.log(add(3, 5)); // Output: 8
+console.log(subtract(10, 4)); // Output: 6
+console.log(multiply(2, 6)); // Output: 12
+console.log(divide(8, 2)); // Output: 4
+console.log(divide(5, 0)); // Output: Cannot divide by zero
+console.log(square(4)); // Output: 16
+console.log(greet("Alice")); // Output: Hello, Alice!
+console.log(greet()); // Output: Hello, stranger!
 &nbsp;
 &nbsp;
-module.exports = { add, subtract, checkNumber };
+module.exports = { add, subtract, multiply, divide, square, greet };
 //---------Test cases below---------//
-checkNumber(4);
-checkNumber(4);
-checkNumber(2);
-checkNumber(2);
+divide(0.6050641911735826, 0.6506472557828107);
+divide(0.8172440441618738, 0.22269002284925787);
+divide(1, 0.7173972574891956);
+divide(1, 0.41343807030758173);
 //---------Test cases below---------//
-checkNumber(3);
-checkNumber(3);
-checkNumber(1);
-checkNumber(1);</pre></td></tr>
+greet(0.0010808548958174402);
+greet(0.6146210379779355);
+greet(true);
+greet(true);</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 07 2023 00:26:26 GMT+0500 (Pakistan Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 07 2023 22:28:45 GMT+0500 (Pakistan Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
