@@ -75,28 +75,26 @@ function generateCallString(
   valuettobeinserted
 ) {
   const paramValues = {};
-  var count = 0;
 
+  // Map test case values to corresponding function parameters
   parameterNames.forEach((param, index) => {
     if (variables && variables.includes(param)) {
-      paramValues[index] = valuettobeinserted
-        ? valuettobeinserted
-        : Math.random();
-      count++;
-    }
-  });
-  parameterNames.forEach((param, index) => {
-    if (variables && !variables.includes(param) && count) {
+      // Check the type of valuettobeinserted
+      if (typeof valuettobeinserted === "string") {
+        paramValues[param] = `"${valuettobeinserted}"`;
+      } else {
+        paramValues[param] =
+          valuettobeinserted !== undefined ? valuettobeinserted : Math.random();
+      }
+    } else {
       paramValues[param] = Math.random();
     }
   });
 
-  if (count == 0) {
-    return null;
-  }
-  const callString = `${functionName}(${Object.values(paramValues).join(
-    parameterNames.length > 1 ? ", " : ""
-  )});`;
+  // Generate the function call string
+  const callString = `${functionName}(${parameterNames
+    .map((param) => paramValues[param])
+    .join(", ")});`;
 
   return callString;
 }

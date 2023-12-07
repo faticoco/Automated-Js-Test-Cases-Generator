@@ -1,13 +1,19 @@
 [
   {
-    "name": "divide",
-    "conditionName": "b !== 0",
-    "trueValue": 1,
-    "falseValue": 0
+    "name": "name",
+    "conditionName": "n == \"hi\"",
+    "trueValue": "hi",
+    "falseValue": "String0.752261665160151"
   },
   {
-    "name": "greet",
-    "conditionName": "name",
+    "name": "name",
+    "conditionName": "m > 3",
+    "trueValue": 4,
+    "falseValue": 2
+  },
+  {
+    "name": "name",
+    "conditionName": "m",
     "trueValue": true,
     "falseValue": false
   }
