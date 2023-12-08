@@ -20,12 +20,22 @@
     "conditionName": "UnknownCondition"
   },
   {
-    "name": "checkNumber",
-    "conditionName": "num < 3",
-    "trueValue": 2,
-    "falseValue": 4
+    "name": "name",
+    "conditionName": "n == \"hi\"",
+    "trueValue": "hi",
+    "falseValue": "String0.752261665160151"
   },
   {
+    "name": "name",
+    "conditionName": "m > 3",
+    "trueValue": 4,
+    "falseValue": 2
+  },
+  {
+    "name": "name",
+    "conditionName": "m",
+    "trueValue": true,
+    "falseValue": false
     "name": "checkNumber",
     "conditionName": "num < 2",
     "trueValue": 1,

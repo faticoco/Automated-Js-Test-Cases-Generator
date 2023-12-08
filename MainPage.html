@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Styles.css" />
+    <title>Code Submission</title>
+  </head>
+
+  <body>
+    <div>
+      <h1>Javascript Code Coverage Analyzer</h1>
+      <form id="codeForm">
+        <label
+          for="code"
+          style='
+            font-family: "Gill Sans", "Gill Sans MT",
+              Calibri, Trebuchet MS", sans-serif;
+          '
+          >Enter Code:</label
+        >
+        <textarea
+          id="code"
+          name="code"
+          placeholder="Type your code here..."
+        ></textarea>
+
+        <button type="submit" class="form" style="margin-left: 200px">
+          Submit
+        </button>
+      </form>
+    </div>
+  </body>
+  <script>
+    // Function to handle the redirect after form submission
+    function handleRedirect() {
+      console.log("Redirecting to new page");
+      window.location.href = "/ShowReports.html";
+    }
+
+    document
+      .getElementById("codeForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
+        if (document.getElementById("code").value == "") {
+          alert("Please Enter your code");
+          window.reload();
+        } else {
+          try {
+            await fetch("http://localhost:3000/writeToFile", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                code: document.getElementById("code").value,
+              }),
+            }).then(handleRedirect());
+          } catch (error) {
+            console.error("Error submitting form:", error);
+          }
+        }
+      });
+  </script>
+</html>

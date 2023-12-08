@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Show Reports</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      div {
+        text-align: center;
+      }
+
+      h1 {
+        color: #5b86e5;
+      }
+
+      button {
+        font-size: 1.2em;
+        padding: 15px 30px;
+        cursor: pointer;
+        background: linear-gradient(to right, #36d1dc, #5b86e5);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        margin: 10px;
+        width: 300px;
+        height: 200px;
+      }
+
+      .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        height: 600px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      button:hover {
+        background: linear-gradient(to right, #aefbff, #2962de);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1 style="margin-bottom: 200px">Reports</h1>
+      <button onclick="openPdfReport()">Show PDF Report</button>
+      <button onclick="openGraphReport()">Show Graph Report</button>
+      <button onclick="openLineByLineReport()">Show Line by Line Report</button>
+    </div>
+
+    <script>
+      function openPdfReport() {
+        window.open(
+          "http://127.0.0.1:3000/coverage/lcov-report/JS-Code-Analyzer-main/index.html"
+        );
+      }
+
+      function openGraphReport() {
+        window.open("http://127.0.0.1:3000/Showinfographics.html");
+      }
+
+      function openLineByLineReport() {
+        window.open(
+          "http://127.0.0.1:3000/coverage/lcov-report/JS-Code-Analyzer-main/test.js.html"
+        );
+      }
+    </script>
+  </body>
+</html>
