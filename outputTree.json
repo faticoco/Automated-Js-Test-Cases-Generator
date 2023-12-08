@@ -1,17 +1,17 @@
 {
   "type": "Program",
   "start": 0,
-  "end": 94,
+  "end": 89,
   "body": [
     {
       "type": "FunctionDeclaration",
       "start": 0,
-      "end": 74,
+      "end": 89,
       "id": {
         "type": "Identifier",
         "start": 9,
-        "end": 13,
-        "name": "name"
+        "end": 12,
+        "name": "xyz"
       },
       "expression": false,
       "generator": false,
@@ -19,125 +19,124 @@
       "params": [
         {
           "type": "Identifier",
-          "start": 14,
-          "end": 15,
-          "name": "n"
+          "start": 13,
+          "end": 17,
+          "name": "num1"
         },
         {
           "type": "Identifier",
-          "start": 17,
-          "end": 18,
-          "name": "m"
+          "start": 19,
+          "end": 23,
+          "name": "num2"
         }
       ],
       "body": {
         "type": "BlockStatement",
-        "start": 20,
-        "end": 74,
+        "start": 25,
+        "end": 89,
         "body": [
           {
             "type": "IfStatement",
-            "start": 24,
-            "end": 72,
+            "start": 29,
+            "end": 87,
             "test": {
               "type": "LogicalExpression",
-              "start": 28,
-              "end": 46,
+              "start": 33,
+              "end": 58,
               "left": {
                 "type": "BinaryExpression",
-                "start": 28,
-                "end": 37,
+                "start": 33,
+                "end": 43,
                 "left": {
                   "type": "Identifier",
-                  "start": 28,
-                  "end": 29,
-                  "name": "n"
-                },
-                "operator": "==",
-                "right": {
-                  "type": "Literal",
                   "start": 33,
                   "end": 37,
-                  "value": "hi",
-                  "raw": "\"hi\""
+                  "name": "num1"
                 },
-                "trueValue": "hi",
-                "falseValue": "String0.752261665160151"
+                "operator": "!=",
+                "right": {
+                  "type": "Literal",
+                  "start": 41,
+                  "end": 43,
+                  "value": 10,
+                  "raw": "10"
+                },
+                "trueValue": 11,
+                "falseValue": 10
               },
               "operator": "&&",
               "right": {
                 "type": "BinaryExpression",
-                "start": 41,
-                "end": 46,
+                "start": 47,
+                "end": 58,
                 "left": {
                   "type": "Identifier",
-                  "start": 41,
-                  "end": 42,
-                  "name": "m"
+                  "start": 47,
+                  "end": 51,
+                  "name": "num1"
                 },
                 "operator": ">",
                 "right": {
-                  "type": "Literal",
-                  "start": 45,
-                  "end": 46,
-                  "value": 3,
-                  "raw": "3"
+                  "type": "Identifier",
+                  "start": 54,
+                  "end": 58,
+                  "name": "num2"
                 },
-                "trueValue": 4,
-                "falseValue": 2
+                "trueValueLeft": 5,
+                "falseValueLeft": 3,
+                "trueValueRight": 4,
+                "falseValueRight": 3
               }
             },
             "consequent": {
               "type": "BlockStatement",
-              "start": 48,
-              "end": 72,
+              "start": 60,
+              "end": 87,
               "body": [
                 {
-                  "type": "IfStatement",
-                  "start": 54,
-                  "end": 68,
-                  "test": {
-                    "type": "Identifier",
-                    "start": 58,
-                    "end": 59,
-                    "name": "m"
-                  },
-                  "consequent": {
-                    "type": "BlockStatement",
-                    "start": 61,
-                    "end": 68,
-                    "body": []
-                  },
-                  "alternate": null,
-                  "trueValue": true,
-                  "falseValue": false
+                  "type": "ExpressionStatement",
+                  "start": 62,
+                  "end": 83,
+                  "expression": {
+                    "type": "CallExpression",
+                    "start": 62,
+                    "end": 82,
+                    "callee": {
+                      "type": "MemberExpression",
+                      "start": 62,
+                      "end": 73,
+                      "object": {
+                        "type": "Identifier",
+                        "start": 62,
+                        "end": 69,
+                        "name": "console"
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "start": 70,
+                        "end": 73,
+                        "name": "log"
+                      },
+                      "computed": false,
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "type": "Literal",
+                        "start": 74,
+                        "end": 81,
+                        "value": "hello",
+                        "raw": "\"hello\""
+                      }
+                    ],
+                    "optional": false
+                  }
                 }
               ]
             },
             "alternate": null
           }
         ]
-      }
-    },
-    {
-      "type": "FunctionDeclaration",
-      "start": 76,
-      "end": 94,
-      "id": {
-        "type": "Identifier",
-        "start": 85,
-        "end": 87,
-        "name": "hi"
-      },
-      "expression": false,
-      "generator": false,
-      "async": false,
-      "params": [],
-      "body": {
-        "type": "BlockStatement",
-        "start": 90,
-        "end": 94,
-        "body": []
       }
     }
   ],

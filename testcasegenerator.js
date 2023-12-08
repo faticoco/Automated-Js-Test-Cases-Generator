@@ -33,100 +33,82 @@ function generateTestCases(
     node.test &&
     node.test.type === "LogicalExpression"
   ) {
-    console.log("Processing LogicalExpression");
-
-    const leftCondition = node.test.left;
-    const rightCondition = node.test.right;
-
-    const leftConditionName = extractConditionName(leftCondition);
-    const rightConditionName = extractConditionName(rightCondition);
-
-    const conditionName = `${leftConditionName} ${node.test.operator} ${rightConditionName}`;
-
-    if (conditionName === "UnknownCondition") {
-      console.log(`Skipping test case for UnknownCondition`);
-      return;
+    handleLogicalExpression(
+      node.test,
+      functionName,
+      result,
+      currentTrueValue,
+      currentFalseValue
+    );
+    if (node.consequent) {
+      console.log(node.consequent);
+      console.log(`Processing consequent of IfStatement`);
+      generateTestCases(
+        node.consequent,
+        functionName,
+        result,
+        node.trueValueLeft,
+        node.falseValueLeft
+      );
     }
 
-    if (leftCondition.left.type === leftCondition.right.type) {
+    if (node.alternate) {
+      console.log(`Processing alternate of IfStatement`);
+      generateTestCases(
+        node.alternate,
+        functionName,
+        result,
+        node.trueValueRight,
+        node.falseValueRight
+      );
+    }
+  } else if (
+    node.type === "IfStatement" &&
+    node.test &&
+    node.test.type === "BinaryExpression"
+  ) {
+    const nodeBinary = node.test;
+    const conditionName = extractConditionName(node.test);
+    console.log("BinaryExpression", nodeBinary);
+    if (nodeBinary.left.type === nodeBinary.right.type) {
       // Both sides are of the same type (either both identifiers or both literals)
       result.push({
         name: functionName,
-        conditionName: leftConditionName,
+        conditionName: conditionName,
         trueValueLeft:
-          leftCondition.trueValueLeft !== undefined
-            ? leftCondition.trueValueLeft
+          nodeBinary.trueValueLeft !== undefined
+            ? nodeBinary.trueValueLeft
             : currentTrueValue,
         trueValueRight:
-          leftCondition.trueValueRight !== undefined
-            ? leftCondition.trueValueRight
+          nodeBinary.trueValueRight !== undefined
+            ? nodeBinary.trueValueRight
             : currentTrueValue,
         falseValueLeft:
-          leftCondition.falseValueLeft !== undefined
-            ? leftCondition.falseValueLeft
+          nodeBinary.falseValueLeft !== undefined
+            ? nodeBinary.falseValueLeft
             : currentFalseValue,
         falseValueRight:
-          leftCondition.falseValueRight !== undefined
-            ? leftCondition.falseValueRight
-            : currentFalseValue,
-      });
-    }
-    if (rightCondition.left.type === rightCondition.right.type) {
-      // Both sides are of the same type (either both identifiers or both literals)
-      result.push({
-        name: functionName,
-        conditionName: rightConditionName,
-        trueValueLeft:
-          rightCondition.trueValueLeft !== undefined
-            ? rightCondition.trueValueLeft
-            : currentTrueValue,
-        trueValueRight:
-          rightCondition.trueValueRight !== undefined
-            ? rightCondition.trueValueRight
-            : currentTrueValue,
-        falseValueLeft:
-          rightCondition.falseValueLeft !== undefined
-            ? rightCondition.falseValueLeft
-            : currentFalseValue,
-        falseValueRight:
-          rightCondition.falseValueRight !== undefined
-            ? rightCondition.falseValueRight
+          nodeBinary.falseValueRight !== undefined
+            ? nodeBinary.falseValueRight
             : currentFalseValue,
       });
     }
     if (
-      leftCondition.left.type === "Identifier" &&
-      leftCondition.right.type === "Literal"
+      nodeBinary.left.type === "Identifier" &&
+      nodeBinary.right.type === "Literal"
     ) {
       // One side is an identifier and the other is a literal
+
       result.push({
         name: functionName,
-        conditionName: leftConditionName,
+        conditionName: conditionName,
         trueValue:
-          leftCondition.trueValue !== undefined
-            ? leftCondition.trueValue
+          nodeBinary.trueValue !== undefined
+            ? nodeBinary.trueValue
             : currentTrueValue,
         falseValue:
-          leftCondition.falseValue !== undefined
-            ? leftCondition.falseValue
-            : currentFalseValue,
-      });
-    }
-    if (
-      rightCondition.left.type === "Identifier" &&
-      rightCondition.right.type === "Literal"
-    ) {
-      // One side is an identifier and the other is a literal
-      result.push({
-        name: functionName,
-        conditionName: rightConditionName,
-        trueValue:
-          rightCondition.trueValue !== undefined
-            ? rightCondition.trueValue
-            : currentTrueValue,
-        falseValue:
-          rightCondition.falseValue !== undefined
-            ? rightCondition.falseValue
+          nodeBinary.falseValue !== undefined
+            ? nodeBinary.falseValue
             : currentFalseValue,
       });
     }
@@ -134,9 +116,8 @@ function generateTestCases(
     console.log(
       `Generated test case: ${JSON.stringify(result[result.length - 1])}`
     );
-
-    //consequent and alternate
     if (node.consequent) {
+      console.log(node.consequent);
       console.log(`Processing consequent of IfStatement`);
       generateTestCases(
         node.consequent,
@@ -245,20 +226,20 @@ function generateTestCases(
         conditionName: conditionName,
 
         trueValueLeft:
-          node.trueValueLeft !== undefined
-            ? node.trueValueLeft
+          node.test.trueValueLeft !== undefined
+            ? node.test.trueValueLeft
             : currentTrueValue,
         trueValueRight:
-          node.trueValueRight !== undefined
-            ? node.trueValueRight
+          node.test.trueValueRight !== undefined
+            ? node.test.trueValueRight
             : currentTrueValue,
         falseValueLeft:
-          node.falseValueLeft !== undefined
-            ? node.falseValueLeft
+          node.test.falseValueLeft !== undefined
+            ? node.test.falseValueLeft
             : currentFalseValue,
         falseValueRight:
-          node.falseValueRight !== undefined
-            ? node.falseValueRight
+          node.test.falseValueRight !== undefined
+            ? node.test.falseValueRight
             : currentFalseValue,
       });
     } else {
@@ -266,78 +247,15 @@ function generateTestCases(
         name: functionName,
         conditionName: conditionName,
         falseValue:
-          node.falseValue !== undefined ? node.falseValue : currentFalseValue,
+          node.test.falseValue !== undefined
+            ? node.test.falseValue
+            : currentFalseValue,
         trueValue:
-          node.trueValue !== undefined ? node.trueValue : currentTrueValue,
+          node.test.trueValue !== undefined
+            ? node.test.trueValue
+            : currentTrueValue,
       });
     }
-
-    console.log(
-      `Generated test case: ${JSON.stringify(result[result.length - 1])}`
-    );
-
-    if (node.consequent) {
-      console.log(`Processing consequent of IfStatement`);
-      generateTestCases(
-        node.consequent,
-        functionName,
-        result,
-        node.trueValueLeft !== undefined
-          ? node.trueValueLeft
-          : currentTrueValue,
-        node.falseValueLeft !== undefined
-          ? node.falseValueLeft
-          : currentFalseValue
-      );
-    }
-
-    if (node.alternate) {
-      console.log(`Processing alternate of IfStatement`);
-      generateTestCases(
-        node.alternate,
-        functionName,
-        result,
-        node.trueValueRight !== undefined
-          ? node.trueValueRight
-          : currentTrueValue,
-        node.falseValueRight !== undefined
-          ? node.falseValueRight
-          : currentFalseValue
-      );
-    }
-  } else if (
-    (node.type === "WhileStatement" ||
-      node.type === "ForOfStatement" ||
-      node.type === "ForStatement") &&
-    node.test !== undefined
-  ) {
-    const conditionName = extractConditionName(node.test);
-
-    if (conditionName === "UnknownCondition") {
-      console.log(`Skipping test case for UnknownCondition`);
-      return;
-    }
-
-    result.push({
-      name: functionName,
-      conditionName: conditionName,
-      trueValueLeft:
-        node.trueValueLeft !== undefined
-          ? node.trueValueLeft
-          : currentTrueValue,
-      trueValueRight:
-        node.trueValueRight !== undefined
-          ? node.trueValueRight
-          : currentTrueValue,
-      falseValueLeft:
-        node.falseValueLeft !== undefined
-          ? node.falseValueLeft
-          : currentFalseValue,
-      falseValueRight:
-        node.falseValueRight !== undefined
-          ? node.falseValueRight
-          : currentFalseValue,
-    });
 
     console.log(
       `Generated test case: ${JSON.stringify(result[result.length - 1])}`
@@ -385,9 +303,13 @@ function generateTestCases(
         name: functionName,
         conditionName: conditionName,
         trueValue:
-          node.trueValue !== undefined ? node.trueValue : currentTrueValue,
+          node.test.trueValue !== undefined
+            ? node.test.trueValue
+            : currentTrueValue,
         falseValue:
-          node.falseValue !== undefined ? node.falseValue : currentFalseValue,
+          node.test.falseValue !== undefined
+            ? node.test.falseValue
+            : currentFalseValue,
       });
 
       console.log(
@@ -443,7 +365,11 @@ function generateTestCases(
       );
 
       if (node.body) {
-        console.log(`Processing body of ${node.type}`);
+        console.log(
+          `Processing body of ${node.type}`,
+          currentTrueValue,
+          node.trueValue
+        );
         generateTestCases(
           node.body,
           functionName,
@@ -525,6 +451,83 @@ function generateTestCases(
     } else {
       console.log(`Skipping node of type: ${node.type}`);
     }
+  }
+}
+
+function handleLogicalExpression(
+  node,
+  functionName,
+  result,
+  currentTrueValue,
+  currentFalseValue
+) {
+  console.log("----------------------Processing LogicalExpression   ", node);
+  const conditionName = extractConditionName(node);
+  if (node.type === "LogicalExpression") {
+    handleLogicalExpression(
+      node.left,
+      functionName,
+      result,
+      node.left.trueValue,
+      node.left.falseValue
+    );
+    handleLogicalExpression(
+      node.right,
+      functionName,
+      result,
+      node.right.trueValue,
+      node.right.falseValue
+    );
+  } else if (node.type === "BinaryExpression") {
+    if (node.left.type === node.right.type) {
+      // Both sides are of the same type (either both identifiers or both literals)
+      result.push({
+        name: functionName,
+        conditionName: conditionName,
+        trueValueLeft:
+          node.trueValueLeft !== undefined
+            ? node.trueValueLeft
+            : currentTrueValue,
+        trueValueRight:
+          node.trueValueRight !== undefined
+            ? node.trueValueRight
+            : currentTrueValue,
+        falseValueLeft:
+          node.falseValueLeft !== undefined
+            ? node.falseValueLeft
+            : currentFalseValue,
+        falseValueRight:
+          node.falseValueRight !== undefined
+            ? node.falseValueRight
+            : currentFalseValue,
+      });
+    }
+    if (node.left.type === "Identifier" && node.right.type === "Literal") {
+      // One side is an identifier and the other is a literal
+
+      result.push({
+        name: functionName,
+        conditionName: conditionName,
+        trueValue:
+          node.trueValue !== undefined ? node.trueValue : currentTrueValue,
+        falseValue:
+          node.falseValue !== undefined ? node.falseValue : currentFalseValue,
+      });
+    }
+
+    console.log(
+      `Generated test case: ${JSON.stringify(result[result.length - 1])}`
+    );
+  } else if (node.type == "Identifier") {
+    console.log("Identifier");
+    result.push({
+      name: functionName,
+      conditionName: conditionName,
+      trueValue:
+        node.trueValue !== undefined ? node.trueValue : currentTrueValue,
+      falseValue:
+        node.falseValue !== undefined ? node.falseValue : currentFalseValue,
+    });
   }
 }
 

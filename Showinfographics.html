@@ -28,6 +28,25 @@
           coverageData[
             "C:\\Users\\fatim\\Downloads\\JS-Code-Analyzer-main\\JS-Code-Analyzer-main\\test.js"
           ];
+        const totalConditions = Object.values(fileData.branchMap).reduce(
+          (acc, branch) => acc + branch.locations.length,
+          0
+        );
+        console.log(totalConditions);
+
+        const executedConditions = Object.values(fileData.branchMap).reduce(
+          (acc, branch) =>
+            acc +
+            branch.locations.filter((loc) =>
+              [1, 2].includes(fileData.s[loc.start.line])
+            ).length,
+          0
+        );
+
+        console.log(executedConditions);
+
+        const conditionalCoverage =
+          (executedConditions / totalConditions) * 100 || 0;
 
         var totalBranches = Object.values(fileData.b).filter(
           (val) => val
@@ -59,12 +78,13 @@
         const statementsCovered = Object.values(fileData.s).filter(
           (val) => val > 0
         ).length;
-        console.log(branchesCovered);
+
         const branchesCoverage = (branches / totalBranches) * 100;
         const functionsCoverage = (functionsCovered / totalFunctions) * 100;
         const statementsCoverage = (statementsCovered / totalStatements) * 100;
 
         return {
+          conditional: conditionalCoverage,
           branches: branchesCoverage,
           functions: functionsCoverage,
           statements: statementsCoverage,
@@ -78,11 +98,12 @@
         const myChart = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: ["Branches", "Functions", "Statements"],
+            labels: ["Conditional", "Branches", "Functions", "Statements"],
             datasets: [
               {
                 label: "Coverage",
                 data: [
+                  coverageData.conditional,
                   coverageData.branches,
                   coverageData.functions,
                   coverageData.statements,

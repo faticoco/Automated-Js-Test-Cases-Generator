@@ -1,3 +1,6 @@
+* {
+  transition: all 0.3s ease-in-out;
+}
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #feffff, #aac5ff);

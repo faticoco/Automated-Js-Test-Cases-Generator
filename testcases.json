@@ -1,20 +1,16 @@
 [
   {
-    "name": "name",
-    "conditionName": "n == \"hi\"",
-    "trueValue": "hi",
-    "falseValue": "String0.752261665160151"
+    "name": "xyz",
+    "conditionName": "num1 != 10",
+    "trueValue": 11,
+    "falseValue": 10
   },
   {
-    "name": "name",
-    "conditionName": "m > 3",
-    "trueValue": 4,
-    "falseValue": 2
-  },
-  {
-    "name": "name",
-    "conditionName": "m",
-    "trueValue": true,
-    "falseValue": false
+    "name": "xyz",
+    "conditionName": "num1 > num2",
+    "trueValueLeft": 5,
+    "trueValueRight": 4,
+    "falseValueLeft": 3,
+    "falseValueRight": 3
   }
 ]

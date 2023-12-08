@@ -1,14 +1,12 @@
 const fs = require("fs");
-var simple = false;
-var complex = false;
+
 function generateFunctionCalls(testCase, functionSource) {
   const functionName = testCase.name;
   const condition = testCase.conditionName;
   const trueValues = extractValues(testCase, "true");
   const falseValues = extractValues(testCase, "false");
-
   // Extracting variables from the condition
-  const variables = condition.match(/[a-zA-Z_]+/g);
+  const variables = condition.match(/[a-zA-Z_]\w*/g);
 
   // parameter names from the function signature
   const parameterNames = functionSource
@@ -19,35 +17,48 @@ function generateFunctionCalls(testCase, functionSource) {
 
   // array to store the function calls
   const functionCalls = [];
-
-  // Generating function calls here
-  falseValues.forEach((falseValue) => {
-    const callString = generateCallString(
+  if (testCase.trueValue) {
+    var callString = generateCallString(
       testCase,
       functionName,
       parameterNames,
       variables,
-      falseValue
-    );
-    if (callString !== null) functionCalls.push(callString);
-  });
-  trueValues.forEach((trueValue) => {
-    const callString = generateCallString(
-      testCase,
-      functionName,
-      parameterNames,
-      variables,
-      trueValue
+      trueValues
     );
     functionCalls.push(callString);
-  });
 
+    callString = generateCallString(
+      testCase,
+      functionName,
+      parameterNames,
+      variables,
+      falseValues
+    );
+    functionCalls.push(callString);
+  } else {
+    var callString = generateCallString(
+      testCase,
+      functionName,
+      parameterNames,
+      variables,
+      falseValues
+    );
+    functionCalls.push(callString);
+    callString = generateCallString(
+      testCase,
+      functionName,
+      parameterNames,
+      variables,
+      trueValues
+      //  );
+    );
+    functionCalls.push(callString);
+  }
   return functionCalls;
 }
 
 function extractValues(testCase, type) {
   const values = [];
-
   const suffixes = ["Left", "Right"];
   suffixes.forEach((suffix) => {
     const key = `${type}Value${suffix}`;
@@ -55,7 +66,6 @@ function extractValues(testCase, type) {
 
     if (testCase.hasOwnProperty(key)) {
       values.push(testCase[key]);
-
       complex = true;
     } else if (testCase.hasOwnProperty(simplekey)) {
       simple = true;
@@ -72,30 +82,19 @@ function generateCallString(
   functionName,
   parameterNames,
   variables,
-  valuettobeinserted
+  falseValues
 ) {
   const paramValues = {};
-
-  // Map test case values to corresponding function parameters
-  parameterNames.forEach((param, index) => {
-    if (variables && variables.includes(param)) {
-      // Check the type of valuettobeinserted
-      if (typeof valuettobeinserted === "string") {
-        paramValues[param] = `"${valuettobeinserted}"`;
-      } else {
-        paramValues[param] =
-          valuettobeinserted !== undefined ? valuettobeinserted : Math.random();
-      }
-    } else {
-      paramValues[param] = Math.random();
-    }
-  });
-
+  for (let i = 0; i < parameterNames.length; i++) {
+    if (variables.includes(parameterNames[i]))
+      paramValues[parameterNames[i]] = falseValues[i];
+    else paramValues[parameterNames[i]] = Math.random();
+  }
   // Generate the function call string
   const callString = `${functionName}(${parameterNames
     .map((param) => paramValues[param])
     .join(", ")});`;
-
+  console.log(callString);
   return callString;
 }
 
@@ -136,7 +135,31 @@ testCases.forEach((testCase) => {
     console.error(`Function ${testCase.name} not found.`);
   }
 });
+// Check for functions without test cases
+Object.keys(functions).forEach((functionName) => {
+  const testFunction = functions[functionName];
+  if (!testCases.some((testCase) => testCase.name === functionName)) {
+    // No test case found for this function, assign random values to its parameters
+    const parameterNames = testFunction
+      .toString()
+      .match(/\(([^)]+)\)/)[1]
+      .split(",")
+      .map((param) => param.trim());
 
+    const randomValues = {};
+    parameterNames.forEach((param) => {
+      randomValues[param] = Math.random();
+    });
+
+    // Generate function call with random values
+    const callString = `${functionName}(${parameterNames
+      .map((param) => randomValues[param])
+      .join(", ")});`;
+
+    // Append the function call to the existing fileContent
+    fileContent += `\n//---------Test cases below---------//\n${callString}`;
+  }
+});
 // Writing the modified content back to the file
 fs.writeFileSync(fileName, fileContent);
 
