@@ -40,7 +40,6 @@ function generateTestCases(
 
     const leftConditionName = extractConditionName(leftCondition);
     const rightConditionName = extractConditionName(rightCondition);
-
     const conditionName = `${leftConditionName} ${node.test.operator} ${rightConditionName}`;
 
     if (conditionName === "UnknownCondition") {
@@ -99,6 +98,7 @@ function generateTestCases(
       leftCondition.right.type === "Literal"
     ) {
       // One side is an identifier and the other is a literal
+
       result.push({
         name: functionName,
         conditionName: leftConditionName,
@@ -116,6 +116,8 @@ function generateTestCases(
       rightCondition.left.type === "Identifier" &&
       rightCondition.right.type === "Literal"
     ) {
+      console.log("Left condition is an identifier and right is a literal");
+      console.log(leftCondition.trueValue, rightCondition.trueValue);
       // One side is an identifier and the other is a literal
       result.push({
         name: functionName,
@@ -157,7 +159,8 @@ function generateTestCases(
         node.falseValueRight
       );
     }
-  } else if (
+  } 
+  else if (
     node.type === "IfStatement" &&
     node.test &&
     node.test.left &&
@@ -385,9 +388,9 @@ function generateTestCases(
         name: functionName,
         conditionName: conditionName,
         trueValue:
-          node.trueValue !== undefined ? node.trueValue : currentTrueValue,
+          node.test.trueValue !== undefined ? node.test.trueValue : currentTrueValue,
         falseValue:
-          node.falseValue !== undefined ? node.falseValue : currentFalseValue,
+          node.test.falseValue !== undefined ? node.test.falseValue : currentFalseValue,
       });
 
       console.log(
@@ -443,7 +446,7 @@ function generateTestCases(
       );
 
       if (node.body) {
-        console.log(`Processing body of ${node.type}`);
+        console.log(`Processing body of ${node.type}`, currentTrueValue, node.trueValue);
         generateTestCases(
           node.body,
           functionName,
@@ -527,6 +530,8 @@ function generateTestCases(
     }
   }
 }
+
+
 
 const outputTree = JSON.parse(fs.readFileSync("outputTree.json", "utf-8"));
 

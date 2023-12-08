@@ -1,5 +1,25 @@
 [
   {
+    "name": "add",
+    "conditionName": "a === 0",
+    "trueValue": 0,
+    "falseValue": 6
+  },
+  {
+    "name": "add",
+    "conditionName": "b > 0",
+    "trueValue": 1,
+    "falseValue": -1
+  },
+  {
+    "name": "add",
+    "conditionName": "UnknownCondition"
+  },
+  {
+    "name": "add",
+    "conditionName": "UnknownCondition"
+  },
+  {
     "name": "checkNumber",
     "conditionName": "num < 3",
     "trueValue": 2,
@@ -10,5 +30,11 @@
     "conditionName": "num < 2",
     "trueValue": 1,
     "falseValue": 3
+  },
+  {
+    "name": "checkNumber",
+    "conditionName": "num !== 5",
+    "trueValue": 6,
+    "falseValue": 5
   }
 ]
