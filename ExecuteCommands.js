@@ -60,6 +60,16 @@ async function TestAppender() {
       console.log(`Test Cases appended successfully:\n${stdout}`);
       resolve(stdout);
     });
+    exec("node TestFunctionCallsAppender.js", (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error appending Test Cases: ${error.message}`);
+        reject(error);
+        return;
+      }
+
+      console.log(`Test Cases appended successfully:\n${stdout}`);
+      resolve(stdout);
+    });
   });
 }
 

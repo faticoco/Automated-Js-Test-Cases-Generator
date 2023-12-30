@@ -69,11 +69,9 @@ function extractValues(testCase, type) {
       complex = true;
     } else if (testCase.hasOwnProperty(simplekey)) {
       simple = true;
-
       values.push(testCase[simplekey]);
     }
   });
-
   return values;
 }
 
@@ -84,11 +82,29 @@ function generateCallString(
   variables,
   falseValues
 ) {
+  var f = 0;
+  var assign = false;
   const paramValues = {};
   for (let i = 0; i < parameterNames.length; i++) {
-    if (variables.includes(parameterNames[i]))
-      paramValues[parameterNames[i]] = falseValues[i];
-    else paramValues[parameterNames[i]] = Math.random();
+    if (variables.includes(parameterNames[i])) {
+      assign = false;
+      for (let k = 0; k < variables.length; k++) {
+        console.log(falseValues);
+        if (parameterNames[i] === variables[k]) {
+          if (falseValues[f] && assign === false) {
+            if (typeof falseValues[f] === "string") {
+              paramValues[parameterNames[i]] = `"${falseValues[f]}"`;
+            } else {
+              paramValues[parameterNames[i]] = falseValues[f];
+            }
+            f++;
+            assign = true;
+          }
+        }
+      }
+    } else {
+      paramValues[parameterNames[i]] = Math.random();
+    }
   }
   // Generate the function call string
   const callString = `${functionName}(${parameterNames

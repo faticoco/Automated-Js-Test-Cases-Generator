@@ -1,16 +1,28 @@
 [
   {
-    "name": "xyz",
-    "conditionName": "num1 != 10",
-    "trueValue": 11,
-    "falseValue": 10
+    "name": "processNumbers",
+    "conditionName": "i < numbers",
+    "trueValueLeft": 6,
+    "trueValueRight": 7,
+    "falseValueLeft": 5,
+    "falseValueRight": 5
   },
   {
-    "name": "xyz",
-    "conditionName": "num1 > num2",
-    "trueValueLeft": 5,
-    "trueValueRight": 4,
-    "falseValueLeft": 3,
-    "falseValueRight": 3
+    "name": "processString",
+    "conditionName": "booleanValue !== \"boolean\"",
+    "trueValue": "boolean0.3523043025023316",
+    "falseValue": "boolean"
+  },
+  {
+    "name": "processString",
+    "conditionName": "booleanValue",
+    "trueValue": true,
+    "falseValue": false
+  },
+  {
+    "name": "checkRelationship",
+    "conditionName": "hi === \"hello\"",
+    "trueValue": "hello",
+    "falseValue": "String0.9583892908930673"
   }
 ]

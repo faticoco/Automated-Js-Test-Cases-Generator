@@ -29,7 +29,7 @@ function generateTestCases(
   currentFalseValue
 ) {
   if (
-    node.type === "IfStatement" &&
+    //node.type === "IfStatement" &&
     node.test &&
     node.test.type === "LogicalExpression"
   ) {
@@ -63,7 +63,7 @@ function generateTestCases(
       );
     }
   } else if (
-    node.type === "IfStatement" &&
+    // node.type === "IfStatement" &&
     node.test &&
     node.test.type === "BinaryExpression"
   ) {
@@ -139,7 +139,7 @@ function generateTestCases(
       );
     }
   } else if (
-    node.type === "IfStatement" &&
+    //  node.type === "IfStatement" &&
     node.test &&
     node.test.left &&
     node.test.left.type === "Identifier" &&
@@ -401,19 +401,16 @@ function generateTestCases(
       console.log(
         `Generated test case: ${JSON.stringify(result[result.length - 1])}`
       );
-    } else if (
-      node.type === "FunctionDeclaration" &&
-      node.body.type === "BlockStatement"
-    ) {
-      console.log(`Processing node of type: ${node.type}`);
+    } else if (functionBodyGetter(node)) {
+      console.log("\n\n*************************\n\n");
+      console.log(`\n\n\n\n\nI FOUND A FUNCTION!!!!`);
 
-      if (node.body.body) {
-        console.log(`Node body type: ${node.body.type}`);
-        console.log(
-          `Node body is an array with ${node.body.body.length} elements`
-        );
+      const body = functionBodyGetter(node);
+      if (body) {
+        console.log(`Node body type: ${body.type}`);
+        console.log(`Node body is an array with ${body.length} elements`);
 
-        node.body.body.forEach((statement) => {
+        body.forEach((statement) => {
           generateTestCases(
             statement,
             functionName,
@@ -426,7 +423,7 @@ function generateTestCases(
         console.log(`Node body is undefined`);
       }
 
-      console.log(`Processing body of FunctionDeclaration`);
+      console.log("\n\n*************************\n\n");
     } else if (node.type === "BlockStatement") {
       console.log(`Processing node of type: ${node.type}`);
 
@@ -537,9 +534,9 @@ const outputTree = JSON.parse(fs.readFileSync("outputTree.json", "utf-8"));
 const testCases = [];
 
 outputTree.body.forEach((node) => {
-  if (node.type === "FunctionDeclaration") {
-    console.log(`Processing function: ${node.id.name}`);
-    generateTestCases(node, node.id.name, testCases);
+  if (functionBodyGetter(node)) {
+    console.log(`Processing function: `);
+    generateTestCases(node, functionNameExtractor(node), testCases);
   }
 });
 
@@ -554,3 +551,63 @@ outputTree.body.forEach((node) => {
 fs.writeFileSync("testcases.json", JSON.stringify(testCases, null, 2));
 
 console.log(testCases);
+
+function functionBodyGetter(node) {
+  if (!node || !node.type) {
+    return false;
+  }
+
+  //for arrow func e.g. const func = () => {return 1;}
+  if (
+    node.type == "VariableDeclaration" &&
+    node.declarations &&
+    node.declarations[0] &&
+    node.declarations[0].init &&
+    node.declarations[0].init.type === "ArrowFunctionExpression"
+  ) {
+    return node.declarations[0].init.body.body;
+  }
+
+  //for declaration e.g. const func = function() {return 1;}
+  if (
+    node.type == "VariableDeclaration" &&
+    node.declarations &&
+    node.declarations[0] &&
+    node.declarations[0].init &&
+    node.declarations[0].init.type === "FunctionExpression"
+  )
+    return node.declarations[0].init.body.body;
+
+  //for normalfunc e.g. function hello() {return 1;}
+  if (node.type == "FunctionDeclaration" && node.body && node.body.body)
+    return node.body.body;
+
+  return false; //indicate that it's not a function
+}
+
+function functionNameExtractor(node) {
+  //if arrow funcor other return declarations[0].id.name;
+  //if normal return node.id.name
+
+  //for arrow func e.g. const func = () => {return 1;}
+  if (
+    (node.type == "VariableDeclaration" &&
+      node.declarations &&
+      node.declarations[0] &&
+      node.declarations[0].init &&
+      node.declarations[0].init.type === "ArrowFunctionExpression") ||
+    (node.type == "VariableDeclaration" &&
+      node.declarations &&
+      node.declarations[0] &&
+      node.declarations[0].init &&
+      node.declarations[0].init.type === "FunctionExpression")
+  ) {
+    return node.declarations[0].id.name;
+  }
+
+  //for normalfunc e.g. function hello() {return 1;}
+  if (node.type == "FunctionDeclaration" && node.body && node.body.body)
+    return node.id.name;
+
+  return "UnnamedFunction";
+}
