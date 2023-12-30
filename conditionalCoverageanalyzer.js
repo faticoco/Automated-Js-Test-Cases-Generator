@@ -37,7 +37,7 @@ function calculateAndDisplayResults(conditions, coverageData) {
   let executedConditions = 0;
 
   conditions.forEach((lineNumber) => {
-    const lineExecutionCount = coverageData.s[lineNumber];
+    const lineExecutionCount = coverageData[lineNumber];
     if (lineExecutionCount !== undefined && lineExecutionCount > 0) {
       executedConditions++;
     }
